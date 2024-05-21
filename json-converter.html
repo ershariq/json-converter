@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to JSON Converter</title>
+    <style>
+        textarea {
+            width: 100%;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Text to JSON Converter</h2>
+    <label for="textInput">Enter your text:</label><br>
+    <textarea id="textInput"></textarea><br>
+    <button onclick="convertToJSON()">Convert to JSON</button><br>
+    <label for="jsonOutput">JSON output:</label><br>
+    <textarea id="jsonOutput" readonly></textarea>
+
+    <script>
+        function convertToJSON() {
+            var inputData = document.getElementById('textInput').value;
+            var outputData = convertToJSONString(inputData);
+            document.getElementById('jsonOutput').value = outputData;
+        }
+
+        function convertToJSONString(data) {
+            var convertedData = {};
+            var lines = data.split('\n');
+            var jsonString = "{";
+            var i = 0;
+
+            for (var line of lines) {
+                if (line.trim()) {  // Skip empty lines
+                    if (i % 2 === 0) {
+                        jsonString += '"' + line.trim() + '": ';
+                    } else {
+                        jsonString += '"' + line.trim() + '"';
+                        if (i < lines.length - 1) {
+                            jsonString += ', ';
+                        }
+                    }
+                    i++;
+                }
+            }
+
+            jsonString += "}";
+            return jsonString;
+        }
+    </script>
+</body>
+</html>
